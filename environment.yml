@@ -1,0 +1,14 @@
+name: telecom-intelligent-ml-env
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - pyspark
+      - torch
+      - pandas
+      - scikit-learn
+      - streamlit
+      - networkx
+      - matplotlib
+      - pytorch-lightning
+      - torch-geometric
