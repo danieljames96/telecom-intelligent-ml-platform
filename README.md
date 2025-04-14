@@ -100,3 +100,15 @@ telecom-intelligent-platform/
 | **5. VAE Module**             | Normal network behavior logs or encoded traffic sequences                | Derived from anomaly dataset        | Learn compressed latent space, generate synthetic behavior data |
 | **6. PySpark Ingestion**      | Raw CDRs (Call Detail Records), usage logs, support ticket logs          | ✅ Simulated or 📦 D4D / Alibaba traces | Handle large-scale ingestion, cleaning, transformations         |
 | **7. Dashboard**              | Combined data outputs (forecasts, anomalies, graphs, recs)               | Internal project outputs            | Visualization & interaction with the system                     |
+
+## Usage
+
+1. Clone the repository
+2. Generate the data using the script scripts/generate_data.py
+3. Place the [IBM Telco Churn](https://www.kaggle.com/datasets/yeanzc/telco-customer-churn-ibm-dataset) Kaggle dataset under data/external
+4. Run the script scripts/process_all_data.py using the Docker container.
+docker compose build
+docker compose up
+docker-compose exec pyspark-notebook python work/scripts/process_all_data.py
+
+docker exec -it telecom-intelligent-ml-platform-pyspark-notebook-1 bash

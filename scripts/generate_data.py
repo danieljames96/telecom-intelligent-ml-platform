@@ -3,6 +3,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import random
 import os
+from faker import Faker
 
 def generate_synthetic_cdr(num_users=500, num_towers=50, num_regions=10, num_days=7, records_per_user_per_day=10, output_path="data/raw/synthetic_cdr.csv"):
     start_date = datetime(2025, 3, 25)
@@ -119,6 +120,30 @@ def generate_support_tickets(num_users=500, output="data/raw/support_tickets.csv
     os.makedirs(os.path.dirname(output), exist_ok=True)
     df.to_csv(output, index=False)
     print(f"✅ Saved: {output}")
+    
+def generate_user_profiles(num_users=500, num_regions=10, output="data/raw/user_profiles.csv"):
+    fake = Faker()
+    np.random.seed(42)
+
+    user_ids = [f"U{i:04d}" for i in range(1, num_users + 1)]
+    region_ids = [random.randint(1, num_regions) for _ in range(num_users)]
+    ages = np.random.randint(18, 65, size=num_users)
+    genders = np.random.choice(['M', 'F', 'O'], size=num_users, p=[0.48, 0.48, 0.04])
+    signup_dates = [fake.date_between(start_date='-3y', end_date='-30d') for _ in range(num_users)]
+    is_enterprise = np.random.choice([0, 1], size=num_users, p=[0.85, 0.15])
+
+    df = pd.DataFrame({
+        "user_id": user_ids,
+        "age": ages,
+        "gender": genders,
+        "region_id": region_ids,
+        "signup_date": signup_dates,
+        "is_enterprise": is_enterprise
+    })
+
+    os.makedirs(os.path.dirname(output), exist_ok=True)
+    df.to_csv(output, index=False)
+    print(f"✅ user_profiles.csv saved to {output}")
 
 if __name__ == "__main__":
     generate_synthetic_cdr()
@@ -126,3 +151,4 @@ if __name__ == "__main__":
     generate_user_plan_history()
     generate_tower_locations()
     generate_support_tickets()
+    generate_user_profiles()
