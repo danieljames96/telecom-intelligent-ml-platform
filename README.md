@@ -1,114 +1,109 @@
-# Intelligent Telecom Operations & Optimization Platform
+# 📡 Telecom ML Intelligence Platform
 
-This project builds an end-to-end big data ML system tailored for the telecom industry. It integrates:
+An end-to-end machine learning platform for telecom analytics featuring:
+- 📉 **Churn Prediction**
+- ⚠️ **Anomaly Detection**
+- 🔮 **Traffic Forecasting**
+- 📊 **Interactive Streamlit Dashboard** for visualization and insights
 
-- 📈 **Time Series Forecasting** for traffic/load per cell tower
-- 🛑 **Anomaly Detection** to flag unusual activity or failures
-- 🔁 **Recommender Systems** for churn prevention and plan upgrades
-- 🔗 **Graph ML** for analyzing the telecom network graph
-- 🧠 **Variational Autoencoders (VAE)** for generative modeling & anomaly scoring
-- ⚡ **PySpark** to handle large-scale data processing of CDRs and network logs
+---
 
-## 🚀 Features
-- Forecast regional traffic using LSTM/TFT
-- Detect anomalies using Autoencoders and Isolation Forests
-- Train GNNs to model device-user networks
-- Generate recommendations using Spark ALS or hybrid models
-- Build a live dashboard with Streamlit
+## 🧠 Project Highlights
 
-## 🧰 Tech Stack
-- Python, PySpark, Pandas, Scikit-learn
-- PyTorch, PyTorch Lightning, PyTorch Geometric
-- MLlib, Streamlit, NetworkX, Neo4j
-- Jupyter, YAML for config
+- **Synthetic telecom dataset generation** including CDRs, user profiles, network behavior logs, and plan history
+- **PySpark preprocessing** simulated within a Dockerized Jupyter environment
+- **EDA** using Pandas, Matplotlib, and Seaborn
+- **Model training** for:
+  - Churn prediction using Random Forest + SMOTE
+  - Network anomaly detection via Isolation Forest
+  - Hourly traffic forecasting using Prophet
+- **Modular code** in `src/` for clean ML pipelines, utilities, and inference
+- **Streamlit dashboard** to interactively explore users, towers, traffic trends, and ML predictions
 
-## 📁 Folder Structure
+---
 
-telecom-intelligent-platform/
-│
+## 🗂️ Directory Structure
+
+```
 ├── data/
-│   ├── raw/                   # Original or simulated CDRs, traffic logs, etc.
-│   ├── processed/             # Cleaned, transformed datasets
-│   └── external/              # Any downloaded public datasets
-│
-├── notebooks/                 # Jupyter notebooks for exploration & prototyping
-│   ├── eda/
-│   ├── forecasting/
-│   ├── anomaly_detection/
-│   └── graph_modeling/
-│
-├── src/
-│   ├── data_ingestion/        # PySpark ETL jobs
-│   │   ├── load_cdrs.py
-│   │   ├── transform_logs.py
-│   │   └── utils.py
-│   │
-│   ├── forecasting/           # Time series forecasting models
-│   │   ├── models.py
-│   │   └── train.py
-│   │
-│   ├── anomaly_detection/     # VAE, Isolation Forests, etc.
-│   │   ├── train_vae.py
-│   │   ├── detect_anomalies.py
-│   │   └── evaluate.py
-│   │
-│   ├── recommender/           # PySpark ALS, hybrid recommenders
-│   │   ├── train_als.py
-│   │   ├── evaluate.py
-│   │   └── utils.py
-│   │
-│   ├── graph_ml/              # Graph construction & GNN models
-│   │   ├── build_graph.py
-│   │   ├── gnn_model.py
-│   │   └── train_gnn.py
-│   │
-│   └── vae_module/            # Shared VAE models for anomaly & gen
-│       ├── vae.py
-│       └── train.py
-│
-├── dashboard/                 # Streamlit or Dash app
-│   ├── app.py
-│   └── components/
-│
-├── config/                    # Config files (YAML/JSON) for pipeline params
-│   ├── spark_config.yaml
-│   ├── model_config.yaml
-│   └── dashboard_config.yaml
-│
-├── scripts/                   # Bash or Python scripts for running jobs
-│   ├── run_pipeline.sh
-│   └── launch_dashboard.sh
-│
-├── tests/                     # Unit and integration tests
-│   ├── test_forecasting.py
-│   ├── test_recommender.py
-│   └── ...
-│
-├── requirements.txt           # Python + PySpark dependencies
-├── environment.yml            # Conda environment (if using)
-├── README.md
-└── LICENSE
+│   ├── raw/                     # Generated raw synthetic datasets
+│   └── processed/               # Cleaned Parquet datasets
+├── models/
+│   └── *.pkl                    # Trained model files
+├── notebooks/
+│   └── 01_process_raw_to_processed.ipynb
+│   └── 02_create_features.ipynb
+│   └── 03_eda_analysis.ipynb
+│   └── 04_model_churn_prediction.ipynb
+│   └── 05_model_anomaly_detection.ipynb
+│   └── 06_model_forecasting.ipynb
+├── scripts/
+│   ├── generate_data.py         # Data generation logic
+│   └── process_all_data.py      # Data processing logic
+└── src/
+    ├── dashboard_app.py         # Streamlit dashboard
+    ├── churn_model_utils.py         
+    ├── anomaly_model_utils.py       
+    └── forecasting_model_utils.py   
+```
 
-## 📊 **Project Data Plan**
+---
 
-| **Module**                | **Dataset Needed**                                                     | **Source**                          | **Purpose**                                                      |
-|---------------------------|------------------------------------------------------------------------|-------------------------------------|------------------------------------------------------------------|
-| **1. Time Series Forecasting** | Telecom traffic volume by region/tower/time                             | ✅ Synthetic (generated) or 📦 OpenCelliD + simulated usage | Predict traffic spikes, enable pre-scaling of resources         |
-| **2. Anomaly Detection**      | Sensor logs / usage logs with anomalies                                  | ✅ Synthetic with injected anomalies | Detect performance drops, network failures                      |
-| **3. Graph ML**               | Device ↔ User ↔ Tower relationships (telecom graph)                      | ✅ Synthetic or 📦 MIT Reality Mining / D4D | Model failure propagation, optimize network topology            |
-| **4. Recommender System**     | Customer usage history, plan info, churn flags                           | 📦 IBM Telecom Churn Dataset or ✅ Simulated | Recommend upgrades, predict churn                               |
-| **5. VAE Module**             | Normal network behavior logs or encoded traffic sequences                | Derived from anomaly dataset        | Learn compressed latent space, generate synthetic behavior data |
-| **6. PySpark Ingestion**      | Raw CDRs (Call Detail Records), usage logs, support ticket logs          | ✅ Simulated or 📦 D4D / Alibaba traces | Handle large-scale ingestion, cleaning, transformations         |
-| **7. Dashboard**              | Combined data outputs (forecasts, anomalies, graphs, recs)               | Internal project outputs            | Visualization & interaction with the system                     |
+## 🗃️ Data Sources
 
-## Usage
+All datasets used in this project are **synthetically generated** to simulate a realistic telecom environment:
 
-1. Clone the repository
-2. Generate the data using the script scripts/generate_data.py
-3. Place the [IBM Telco Churn](https://www.kaggle.com/datasets/yeanzc/telco-customer-churn-ibm-dataset) Kaggle dataset under data/external
-4. Run the script scripts/process_all_data.py using the Docker container.
+- `synthetic_cdr.csv`: Call Detail Records with timestamps, tower usage, data and call volume
+- `user_profiles.csv`: User demographics like age, region, and enterprise flags
+- `user_plan_history.csv`: Monthly data usage and satisfaction scores
+- `network_behaviors.csv`: Tower-level performance logs (latency, CPU, packet loss)
+- `tower_locations.csv`: Geolocation and region info for each tower
+- `ibm_telco_churn.csv`: Kaggle Dataset [IBM Telco Churn](https://www.kaggle.com/datasets/yeanzc/telco-customer-churn-ibm-dataset)
+
+These datasets are joined, aggregated, and saved as Parquet using PySpark within a **Docker-based environment** to simulate distributed processing.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Generate Data
+```bash
+python scripts/generate_data.py
+```
+
+### 3. Process Data (Docker is optional if pyspark not supported)
+```bash
 docker compose build
 docker compose up
 docker-compose exec pyspark-notebook python work/scripts/process_all_data.py
+```
 
-docker exec -it telecom-intelligent-ml-platform-pyspark-notebook-1 bash
+### 4. Launch Dashboard
+```bash
+streamlit run src/dashboard_app.py
+```
+
+---
+
+## 📌 Use Cases Covered
+
+- Identify high-risk users based on churn probabilities
+- Detect underperforming or anomalous towers
+- Forecast future call volume to support capacity planning
+
+---
+
+## 🏁 Next Steps
+
+- [ ] Add CSV upload support for new user churn predictions
+- [ ] Add map visualizations for tower anomalies
+- [ ] Add model monitoring features (e.g., prediction drift detection)
+
+---
+
+**Author:** Daniel James
